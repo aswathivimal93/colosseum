@@ -8,7 +8,7 @@ from datetime import datetime
 
 
 class JobTimesheet(Document):
-    """ def before_insert(self):
+    def before_insert(self):
         self.handle_child_table_changes()
 
     def on_update(self):
@@ -42,7 +42,7 @@ class JobTimesheet(Document):
         time_format = "%H:%M:%S"
         start = datetime.strptime(start_time, time_format)
         end = datetime.strptime(end_time, time_format)
-        return (end - start).seconds """
+        return (end - start).seconds 
     
 
 @frappe.whitelist()  # This makes the function accessible from JavaScript
