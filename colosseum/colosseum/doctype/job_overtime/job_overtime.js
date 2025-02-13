@@ -1,16 +1,11 @@
 
 frappe.ui.form.on("Job Overtime", {
-    from_date: function (frm) {
-        if (frm.doc.from_date && frm.doc.to_date) {
+    refresh: function (frm) {
+        frm.add_custom_button(__("Get Employees"), function () {
+            // Clear the child table before opening the dialog
+            frm.clear_table('employees');
             get_employee_work_entry(frm,frm.doc.from_date,frm.doc.to_date)
-        }
-      
-    },
-    to_date: function (frm) { 
-        if (frm.doc.from_date && frm.doc.to_date) {
-            get_employee_work_entry(frm,frm.doc.from_date,frm.doc.to_date)
-        }
-      
+        });
     }
 });
 function get_employee_work_entry(frm,from_date,to_date)
@@ -25,7 +20,9 @@ function get_employee_work_entry(frm,from_date,to_date)
             if (r.message) {
                 frm.clear_table('employees');
                 r.message.forEach(function (emp) {
-                    let total_amount=3000+emp.total_ot*20;
+                    console.log("data")
+                    console.log(emp)
+                    let total_amount=(emp.basic_salary/240)*1.5*emp.total_ot;
                     frm.add_child('employees', {
                         employee_name: emp.employee_name,
                         total_hours: emp.total_hours,
